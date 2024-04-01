@@ -1,8 +1,8 @@
-//
-//  Piece.swift
-//  Checkers
-//
-//  Created by Eli Rooney on 3/19/24.
-//
-
 import Foundation
+
+struct Piece: Hashable {
+    enum Team { case red, black }
+    let position: Int
+    let team: Team
+    let isKing: Bool
+}

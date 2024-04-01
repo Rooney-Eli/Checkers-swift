@@ -1,8 +1,22 @@
-//
-//  Action.swift
-//  Checkers
-//
-//  Created by Eli Rooney on 3/19/24.
-//
-
 import Foundation
+
+enum Action {
+    case capture(Capture)
+    case chainCapture(ChainCapture)
+    case move(Move)
+    
+    struct Capture : Hashable {
+        let origin: Int
+        let capturedPosition: Int
+        let destination: Int
+    }
+    
+    struct ChainCapture {
+        let captures: [Capture]
+    }
+    
+    struct Move {
+        let origin: Int
+        let destination: Int
+    }
+}

@@ -11,6 +11,10 @@
 		04EB0AC82BAA39CE009C1866 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB0AC72BAA39CE009C1866 /* ContentView.swift */; };
 		04EB0ACA2BAA39DB009C1866 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EB0AC92BAA39DB009C1866 /* Assets.xcassets */; };
 		04EB0ACD2BAA39DB009C1866 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 04EB0ACC2BAA39DB009C1866 /* Preview Assets.xcassets */; };
+		04EB0AD42BAA61CE009C1866 /* CheckersViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB0AD32BAA61CE009C1866 /* CheckersViewModel.swift */; };
+		04EB0AD62BAA929E009C1866 /* Board.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB0AD52BAA929E009C1866 /* Board.swift */; };
+		04EB0AD82BAA92C2009C1866 /* Piece.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB0AD72BAA92C2009C1866 /* Piece.swift */; };
+		04EB0ADA2BAA9C86009C1866 /* Action.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04EB0AD92BAA9C86009C1866 /* Action.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +23,10 @@
 		04EB0AC72BAA39CE009C1866 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		04EB0AC92BAA39DB009C1866 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		04EB0ACC2BAA39DB009C1866 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		04EB0AD32BAA61CE009C1866 /* CheckersViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckersViewModel.swift; sourceTree = "<group>"; };
+		04EB0AD52BAA929E009C1866 /* Board.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Board.swift; sourceTree = "<group>"; };
+		04EB0AD72BAA92C2009C1866 /* Piece.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Piece.swift; sourceTree = "<group>"; };
+		04EB0AD92BAA9C86009C1866 /* Action.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Action.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,10 +59,14 @@
 		04EB0AC42BAA39CE009C1866 /* Checkers */ = {
 			isa = PBXGroup;
 			children = (
+				04EB0AD52BAA929E009C1866 /* Board.swift */,
+				04EB0AD32BAA61CE009C1866 /* CheckersViewModel.swift */,
 				04EB0AC52BAA39CE009C1866 /* CheckersApp.swift */,
 				04EB0AC72BAA39CE009C1866 /* ContentView.swift */,
 				04EB0AC92BAA39DB009C1866 /* Assets.xcassets */,
 				04EB0ACB2BAA39DB009C1866 /* Preview Content */,
+				04EB0AD72BAA92C2009C1866 /* Piece.swift */,
+				04EB0AD92BAA9C86009C1866 /* Action.swift */,
 			);
 			path = Checkers;
 			sourceTree = "<group>";
@@ -138,7 +150,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				04EB0AC82BAA39CE009C1866 /* ContentView.swift in Sources */,
+				04EB0ADA2BAA9C86009C1866 /* Action.swift in Sources */,
 				04EB0AC62BAA39CE009C1866 /* CheckersApp.swift in Sources */,
+				04EB0AD82BAA92C2009C1866 /* Piece.swift in Sources */,
+				04EB0AD62BAA929E009C1866 /* Board.swift in Sources */,
+				04EB0AD42BAA61CE009C1866 /* CheckersViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
