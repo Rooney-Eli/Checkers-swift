@@ -59,14 +59,14 @@
 		04EB0AC42BAA39CE009C1866 /* Checkers */ = {
 			isa = PBXGroup;
 			children = (
+				04EB0AD92BAA9C86009C1866 /* Action.swift */,
+				04EB0AD72BAA92C2009C1866 /* Piece.swift */,
 				04EB0AD52BAA929E009C1866 /* Board.swift */,
 				04EB0AD32BAA61CE009C1866 /* CheckersViewModel.swift */,
 				04EB0AC52BAA39CE009C1866 /* CheckersApp.swift */,
 				04EB0AC72BAA39CE009C1866 /* ContentView.swift */,
 				04EB0AC92BAA39DB009C1866 /* Assets.xcassets */,
 				04EB0ACB2BAA39DB009C1866 /* Preview Content */,
-				04EB0AD72BAA92C2009C1866 /* Piece.swift */,
-				04EB0AD92BAA9C86009C1866 /* Action.swift */,
 			);
 			path = Checkers;
 			sourceTree = "<group>";

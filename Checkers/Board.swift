@@ -3,8 +3,24 @@ import Foundation
 struct Board {
     let pieces: [Piece]
     
-    init(_ pieces: [Piece]) {
+    init(_ pieces: [Piece] = []) {
         self.pieces = pieces
+    }
+    
+    func initialize() -> Board {
+        let redStartPositions = 0 ..< ((8 / 2) * 3)
+        let blackStartPositions = (((8 * 8) / 2) - ((8 / 2) * 3)) ..< ((8 * 8) / 2)
+        
+        let redPieces = redStartPositions.map { position in Piece(position: position, team: Piece.Team.red, isKing: false) }
+        let blackPieces = blackStartPositions.map { position in Piece(position: position, team: Piece.Team.black, isKing: false) }
+        
+        //todo remove this
+        let testPiece = [Piece(position: 16, team: Piece.Team.red, isKing: false)]
+        
+        
+        let initialPieces = redPieces + blackPieces + testPiece
+        
+        return Board(initialPieces)
     }
     
     
@@ -13,7 +29,7 @@ struct Board {
             fatalError("Piece not found at origin position \(capture.origin)")
         }
         
-        let remainingPieces = pieces.filter { $0.position != capture.origin && $0.position != capture.capturedPosition}
+        let remainingPieces = pieces.filter { $0.position != capture.origin && $0.position != capture.capturedPosition }
         
         return Board(
             remainingPieces + [Piece(
@@ -215,8 +231,8 @@ struct Board {
             checkPieceCanMoveDirection(
                 piece,
                 pieces,
-                moveSuite[$0.offset].boardExistsInDirection,
-                moveSuite[$0.offset].positionOneDiagonalInDirection
+                moveSuite[$0.offset + start].boardExistsInDirection,
+                moveSuite[$0.offset + start].positionOneDiagonalInDirection
             )
         }
         
@@ -369,6 +385,16 @@ struct Board {
     }
     
 
+    func getChainCaptures(_ piece: Piece) -> [Action.ChainCapture] {
+        getPieceChainCaptures(piece, pieces).filter { !$0.captures.isEmpty }
+    }
+    
+    func getMoves(_ piece: Piece) -> [Action.Move] {
+        getPieceMoves(piece, pieces)
+    }
+    
+    
+    
     
     struct CaptureFunctionSuite {
         let positionOneDiagonalInDirection: (Int) -> Int
