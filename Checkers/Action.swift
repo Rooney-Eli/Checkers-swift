@@ -1,7 +1,7 @@
 import Foundation
 
 enum Action {
-    case capture(Capture)
+    case capture(Capture) // Capturing opponents piece
     case chainCapture(ChainCapture)
     case move(Move)
     
@@ -12,7 +12,7 @@ enum Action {
     }
     
     struct ChainCapture {
-        let captures: [Capture]
+        let captures: [Capture] // array of captures
     }
     
     struct Move {
