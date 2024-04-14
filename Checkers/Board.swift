@@ -406,28 +406,28 @@ struct Board {
     func row(_ position: Int) -> Int { position / (8 / 2) }
 
     // Checks if board exists two positions left of given 'position'
-    func boardExistsLeftTwo(_ position: Int) -> Bool { column(position) > 1 } //fix logic?
+    func boardExistsLeftTwo(_ position: Int) -> Bool { column(position) > 1 }
 
-    // Check is board exists left of given 'position'//fix logic?
+    // Check is board exists left of given 'position'
     func boardExistsLeftOne(_ position: Int) -> Bool { row(position) % 2 == 0 || column(position) > 0 }
 
     // Check is board exists two position left of given 'position'
-    func boardExistsRightTwo(_ position: Int) -> Bool { column(position) < ((8 / 2) - 1) }//fix logic?
+    func boardExistsRightTwo(_ position: Int) -> Bool { column(position) < ((8 / 2) - 1) }
 
     // Check is board exists right of given 'position'
-    func boardExistsRightOne(_ position: Int) -> Bool { row(position) % 2 == 0 ? column(position) < ((8 / 2) - 1) : true }//fix logic?
+    func boardExistsRightOne(_ position: Int) -> Bool { row(position) % 2 == 0 ? column(position) < ((8 / 2) - 1) : true }
 
     // Check is board exists two positions above given 'position'
-    func boardExistsUpTwo(_ position: Int) -> Bool { row(position) > 1 } //fix logic?
+    func boardExistsUpTwo(_ position: Int) -> Bool { row(position) > 1 }
 
     // Checks if a position exists in row above the current position
-    func boardExistsUpOne(_ position: Int) -> Bool { row(position) > 0 } //fix logic?
+    func boardExistsUpOne(_ position: Int) -> Bool { row(position) > 0 }
 
     // Check is board exists two positions below the given 'position'
-    func boardExistsDownTwo(_ position: Int) -> Bool { row(position) < (8 - 2) } //fix logic?
+    func boardExistsDownTwo(_ position: Int) -> Bool { row(position) < (8 - 2) }
     
     // Checks if a position exists in row below the current position
-    func boardExistsDownOne(_ position: Int) -> Bool { row(position) < (8 - 1) } //fix logic?
+    func boardExistsDownOne(_ position: Int) -> Bool { row(position) < (8 - 1) } 
     
     // Returns position, two spots, diagonally up left of paramter 'position'
     func positionTwoDiagonalUpLeft(_ position: Int) -> Int {
@@ -490,22 +490,22 @@ struct Board {
     }
 
     // Returns position up left diagonally
-    func positionOneDiagonalUpLeft(_ position: Int) -> Int { //fix logic?
+    func positionOneDiagonalUpLeft(_ position: Int) -> Int {
         row(position) % 2 == 0 ? position - (8 / 2) : position - (8 / 2) - 1
     }
 
     // Returns position up right diagonally
-    func positionOneDiagonalUpRight(_ position: Int) -> Int { //fix logic?
+    func positionOneDiagonalUpRight(_ position: Int) -> Int {
         row(position) % 2 == 0 ? position - (8 / 2) + 1 : position - (8 / 2)
     }
 
     // Returns position down left diagonally
-    func positionOneDiagonalDownLeft(_ position: Int) -> Int { //fix logic?
+    func positionOneDiagonalDownLeft(_ position: Int) -> Int {
         row(position) % 2 == 0 ? position + (8 / 2) : position + (8 / 2) - 1
     }
 
     // Returns position down right diagonally
-    func positionOneDiagonalDownRight(_ position: Int) -> Int { //fix logic?
+    func positionOneDiagonalDownRight(_ position: Int) -> Int {
         row(position) % 2 == 0 ? position + (8 / 2) + 1 : position + (8 / 2)
     }
     
