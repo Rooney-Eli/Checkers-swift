@@ -115,40 +115,59 @@ struct ContentView: View {
     
     func handleSquareTap(_ x: Int, _ y: Int, _ piece: Piece?) {
         print("handleSquareTap: Square tapped at position \(x) \(y)")
-        
-        if let sq = squares[y][x] {
-            if let p = piece {
-                let actions = viewModel.onPieceTapped(piece: p)
-                print("handleSquareTap: \(actions)")
-                
-                let nextAction: Action?
-                if(!actions.isEmpty) {
-                    if selectedAction?.piece.position != p.position {
-                        selectedAction = ActionSelection(actions: actions, piece: p)
-                        nextAction = selectedAction?.actions[0]
-                    } else {
-                        nextAction = selectedAction?.nextAction()
-                    }
-                } else {
-                    nextAction = nil
+        // If there's no selected action and there's a piece on the tapped square
+        if selectedAction == nil, let tappedPiece = piece {
+            // Get the possible actions for the tapped piece
+            let actions = viewModel.onPieceTapped(piece: tappedPiece)
+            // Highlight the possible moves for the selected piece
+            highlightSquares(actions.compactMap { action in
+                if case let .move(move) = action {
+                    return move.destination
                 }
-                
-                let destinations: [Int]
-                switch nextAction {
-                case .capture(let capture):
-                    destinations = [capture.destination]
-                case .chainCapture(let chainCapture):
-                    destinations = chainCapture.captures.map { $0.destination }
-                case .move(let move):
-                    destinations = [move.destination]
-                default:
-                    destinations = []
+                return nil
+            })
+            // Store the selected piece and its actions
+            selectedAction = ActionSelection(actions: actions, piece: tappedPiece)
+        } else {
+            // If there's already a selected action and the tapped square is a valid destination
+            if let selectedAction = selectedAction, let moveAction = selectedAction.actions.first(where: { action in
+                if case let .move(move) = action {
+                    return move.destination == squares[y][x]?.position
                 }
+                return false
+            }) {
+                // Perform the move action
+                viewModel.board = viewModel.board.performAction(action: moveAction)
+                // Clear the selected action and unhighlight squares
+                self.selectedAction = nil
                 unhighlightSquares()
-                highlightSquares(destinations + [p.position])
+                // Update the squares array with the new board state
+                updateSquares()
+            } else {
+                // If the tapped square is not a valid destination, clear the selection
+                self.selectedAction = nil
+                unhighlightSquares()
             }
         }
     }
+
+
+
+
+
+    func updateSquares() {
+        for y in 0..<squares.count {
+            for x in 0..<squares[y].count {
+                if let piece = viewModel.board.pieces.first(where: { $0.position == squares[y][x]?.position }) {
+                    squares[y][x]?.piece = piece
+                } else {
+                    squares[y][x]?.piece = nil
+                }
+            }
+        }
+    }
+
+
 }
 
 struct ContentView_Previews: PreviewProvider {

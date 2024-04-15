@@ -1,7 +1,7 @@
 import Foundation
 
 struct Board {
-    let pieces: [Piece]
+    var pieces: [Piece]
     
     init(_ pieces: [Piece] = []) {
         self.pieces = pieces
@@ -98,28 +98,23 @@ struct Board {
      - returns: an updated game board after a piece is moved
      */
     func movePiece(_ move: Action.Move, _ pieces: [Piece]) -> Board {
-        //seperate 'pieces' into two array; 'piecesAtOrigin' and 'remainingPieces'
-        let (piecesAtOrigin, remainingPieces) = pieces.reduce(into: ([Piece](), [Piece]())) { result, piece in
+        // Map over the pieces to update the position of the moved piece
+        let updatedPieces = pieces.map { piece in
             if piece.position == move.origin {
-                result.0.append(piece) // if checker piece is at the original position, its added to 'pieceAtOrigin'
+                return Piece(
+                    position: move.destination,
+                    team: piece.team,
+                    isKing: piece.isKing
+                )
             } else {
-                result.1.append(piece) // else piece is added to 'remainingPieces'
+                return piece
             }
         }
         
-        // checks if a piece was found at the origin position
-        guard let firstPiece = piecesAtOrigin.first else {
-            fatalError("Piece not found at origin position \(move.origin)")
-        }
-        
-        return Board(
-            remainingPieces + [Piece(
-                position: move.destination,
-                team: firstPiece.team,
-                isKing: !firstPiece.isKing ? inKingmakerRow(move.destination, firstPiece.team) : true
-            )]
-        )
+        // Return the updated board state
+        return Board(updatedPieces)
     }
+
     
     /**
      Checks if a piece is in a Kingmaker row
@@ -380,13 +375,18 @@ struct Board {
     func performAction(action: Action) -> Board {
         switch action {
         case .capture(let capture):
+            print("Performing capture action")
             return capturePiece(capture, pieces)
         case .chainCapture(let chainCapture):
+            print("Performing chain capture action")
             return capturePieces(chainCapture, pieces)
         case .move(let move):
+            print("Performing move action")
             return movePiece(move, pieces)
         }
     }
+
+
     
     // Returns column index from a given position
     func column(_ position: Int) -> Int {
