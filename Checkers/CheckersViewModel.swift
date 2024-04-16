@@ -15,4 +15,8 @@ class CheckersViewModel: ObservableObject {
         return []
     }
     
+    func performAction(action: Action) {
+        board = board.performAction(action: action)
+    }
+    
 }

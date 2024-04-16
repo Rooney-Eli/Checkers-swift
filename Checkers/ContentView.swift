@@ -5,12 +5,13 @@ struct ContentView: View {
     @ObservedObject var viewModel = CheckersViewModel()
     @State private var squares: [[Square?]] = Array(repeating: Array(repeating: nil, count: 8), count: 8)
     @State private var tappedSquare: Square? = nil
-    @State private var selectedAction: ActionSelection? = nil
+    @State private var actionSelection: ActionSelection? = nil
+    @State private var currentTurn: Piece.Team? = Piece.Team.black
     
     var body: some View {
         GeometryReader { geometry in
             let size = min(geometry.size.width, geometry.size.height)
-            Grid(horizontalSpacing: 1, verticalSpacing: 1) {
+            Grid(horizontalSpacing: 0, verticalSpacing: 0) {
                 ForEach(0..<8) { y in
                     GridRow {
                         ForEach(0..<8) { x in
@@ -78,6 +79,7 @@ struct ContentView: View {
         self.squares = squaresArray
     }
     
+    
     func highlightSquares(_ positions: [Int]) {
         for y in 0..<squares.count {
             for x in 0..<squares[y].count {
@@ -117,17 +119,19 @@ struct ContentView: View {
         print("handleSquareTap: Square tapped at position \(x) \(y)")
         
         if let sq = squares[y][x] {
-            if let p = piece {
+            
+            //todo add a concept of turn based then check if piece is that turn's color
+            if let p = piece, p.team == currentTurn {
                 let actions = viewModel.onPieceTapped(piece: p)
                 print("handleSquareTap: \(actions)")
                 
                 let nextAction: Action?
                 if(!actions.isEmpty) {
-                    if selectedAction?.piece.position != p.position {
-                        selectedAction = ActionSelection(actions: actions, piece: p)
-                        nextAction = selectedAction?.actions[0]
+                    if actionSelection?.piece.position != p.position {
+                        actionSelection = ActionSelection(actions: actions, piece: p)
+                        nextAction = actionSelection?.actions[0]
                     } else {
-                        nextAction = selectedAction?.nextAction()
+                        nextAction = actionSelection?.nextAction()
                     }
                 } else {
                     nextAction = nil
@@ -146,6 +150,14 @@ struct ContentView: View {
                 }
                 unhighlightSquares()
                 highlightSquares(destinations + [p.position])
+            }
+            
+            //check if actionSelection destination is that tapped square, if it is do the thing
+            if let selection = actionSelection, sq.position == selection.currentDestination() {
+//                let newBoard = viewModel.board.performAction(action: selection.currentAction())
+                viewModel.performAction(action: selection.currentAction())
+                initializeSquares()
+                currentTurn = currentTurn == .black ? .red : .black
             }
         }
     }
@@ -176,7 +188,7 @@ struct Square : View, Identifiable {
             .overlay(
                 ZStack {
                     piece != nil ? Circle().fill(piece?.team == Piece.Team.red ? Color.red : Color.gray).frame(width: 30, height: 30) : nil
-                    Text("\(position)").foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+//                    Text("\(position)").foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
                 }
                 
             ).onTapGesture {
@@ -215,6 +227,22 @@ struct ActionSelection {
     init(actions: [Action], piece: Piece) {
         self.actions = actions
         self.piece = piece
+    }
+    
+    func currentDestination() -> Int {
+        let current = currentAction()
+        switch current {
+        case .capture(let capture):
+            return capture.destination
+        case .chainCapture(let chainCapture):
+            return chainCapture.captures.last!.destination
+        case .move(let move):
+            return move.destination
+        }
+    }
+    
+    func currentAction() -> Action {
+        return actions[index]
     }
     
     mutating func nextAction() -> Action {

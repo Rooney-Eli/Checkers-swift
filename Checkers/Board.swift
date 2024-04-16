@@ -16,11 +16,15 @@ struct Board {
         // array of Black Piece objects, mapped to their starting positions
         let blackPieces = blackStartPositions.map { position in Piece(position: position, team: Piece.Team.black, isKing: false) }
         
-        //todo remove this
-        let testPiece = [Piece(position: 16, team: Piece.Team.red, isKing: false)]
+        //These are for easy testing
+//        let testPiece = [Piece(position: 16, team: Piece.Team.red, isKing: false)]
+//        let testPiece2 = [Piece(position: 25, team: Piece.Team.red, isKing: false)]
+//        let testPiece4 = [Piece(position: 26, team: Piece.Team.red, isKing: false)]
+//        let testPiece3 = [Piece(position: 5, team: Piece.Team.black, isKing: true)]
+//        let initialPieces = testPiece + testPiece2 + testPiece3 + testPiece4
         
-        let initialPieces = redPieces + blackPieces + testPiece
         
+        let initialPieces = redPieces + blackPieces
         return Board(initialPieces)
     }
     
@@ -179,7 +183,7 @@ struct Board {
         return captures.flatMap { capture in
             let resultingBoard = intermediateCapture(capture, pieces)
             
-            guard let movedPiece = pieces.first(where: { $0.position == capture.origin }) else {
+            guard let movedPiece = resultingBoard.pieces.first(where: { $0.position == capture.destination }) else {
                 fatalError("Piece not found at origin position \(capture.origin)")
             }
             
@@ -237,9 +241,9 @@ struct Board {
             checkPieceCanCaptureDirection(
                 piece,
                 pieces,
-                captureSuite[$0.offset].positionOneDiagonalInDirection,
-                captureSuite[$0.offset].positionTwoDiagonalInDirection,
-                captureSuite[$0.offset].boardExistsTwoInDirection
+                captureSuite[$0.offset + start].positionOneDiagonalInDirection,
+                captureSuite[$0.offset + start].positionTwoDiagonalInDirection,
+                captureSuite[$0.offset + start].boardExistsTwoInDirection
             )
         }
         
@@ -389,24 +393,13 @@ struct Board {
     }
     
     // Returns column index from a given position
-    func column(_ position: Int) -> Int {
-        let mod = position % 8
-        let columnIndex: Int
-        
-        if mod < 4 {
-            columnIndex = mod % 2 + 1
-        } else {
-            columnIndex = (mod - 4) * 2
-        }
-    
-        return columnIndex
-    }
+    func column(_ position: Int) -> Int { position % (8 / 2) }
 
     // Returns row index from a given position
     func row(_ position: Int) -> Int { position / (8 / 2) }
 
     // Checks if board exists two positions left of given 'position'
-    func boardExistsLeftTwo(_ position: Int) -> Bool { column(position) > 1 }
+    func boardExistsLeftTwo(_ position: Int) -> Bool { column(position) > 0 }
 
     // Check is board exists left of given 'position'
     func boardExistsLeftOne(_ position: Int) -> Bool { row(position) % 2 == 0 || column(position) > 0 }
